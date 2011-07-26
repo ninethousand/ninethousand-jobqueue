@@ -39,4 +39,6 @@ interface HistoryAdapterInterface extends AdapterInterface
     public function setSeverity($severity);
     public function getActive();
     public function setActive($active);
+    public function getTotal();
+    public function setTotal($total);
 }

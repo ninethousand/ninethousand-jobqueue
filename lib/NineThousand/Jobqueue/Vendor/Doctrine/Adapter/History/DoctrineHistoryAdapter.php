@@ -48,6 +48,11 @@ class DoctrineHistoryAdapter implements HistoryAdapterInterface
     private $_entry = null;
     
     /**
+     * @var int holds the result from Collection::count()
+     */
+    protected $total = 0;
+    
+    /**
      * Constructs the object.
      *
      * @param array $options
@@ -92,6 +97,7 @@ class DoctrineHistoryAdapter implements HistoryAdapterInterface
         }
         
         $history = $query->getResult();
+        $this->setTotal(count($history));
         foreach ($history as $entry) {
             $item = self::factory($this->_options, $this->_em, $entry);
             array_push($entries, $item);
@@ -298,6 +304,22 @@ class DoctrineHistoryAdapter implements HistoryAdapterInterface
             $this->_em->persist($this->_entry);
             $this->_em->flush();
         }
+    }
+    
+    /**
+     * @return int
+     */
+    public function getTotal() 
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param int $total
+     */ 
+    public function setTotal($total) 
+    {
+        $this->total = $total;
     }
     
 }

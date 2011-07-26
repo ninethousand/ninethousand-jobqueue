@@ -25,5 +25,7 @@ interface HistoryInterface extends \Iterator
     public function filterBy($column, $exclude);
     public function prev();
     public function refresh();
-    public function totalEntries();
+    public function count();
+    public function getTotal();
+    public function setTotal($total);
 }

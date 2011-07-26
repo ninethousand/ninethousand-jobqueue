@@ -214,13 +214,31 @@ abstract class History
     }
     
     /**
-     * Provides a count of total entries.
+     * Provides a count of entries in the collection.
      *
      * @return int
      */
-    public function totalEntries()
+    public function count()
     {
         return count($this->entries);
+    }
+    
+    /**
+     * @Provides a count of every history item available notwithstanding how many in the collection
+     *
+     * @return int
+     */
+    public function getTotal() 
+    {
+        return $this->adapter->getTotal();
+    }
+
+    /**
+     * @param int $total
+     */ 
+    public function setTotal($total) 
+    {
+        $this->adapter->setTotal($total);
     }
     
 }
