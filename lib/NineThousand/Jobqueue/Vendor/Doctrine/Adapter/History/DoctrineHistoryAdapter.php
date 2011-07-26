@@ -87,17 +87,24 @@ class DoctrineHistoryAdapter implements HistoryAdapterInterface
                         ->andWhere('h.active = :active')
                         ->setParameters(array('active' => 1))
                         ->getQuery();
-
+        
         if (null !== $limit) {
+            $countQuery = clone $query;
+            $countQuery->setParameters($query->getParameters());
+
             $query->setMaxResults($limit);
-            
             if (null !== $offset) {
                 $query->setFirstResult($offset);
             }
+            
+            $this->setTotal(count($countQuery->getResult())); 
         }
         
         $history = $query->getResult();
-        $this->setTotal(count($history));
+        if (!$this->getTotal()) {
+            $this->setTotal(count($history));
+        }
+        
         foreach ($history as $entry) {
             $item = self::factory($this->_options, $this->_em, $entry);
             array_push($entries, $item);
