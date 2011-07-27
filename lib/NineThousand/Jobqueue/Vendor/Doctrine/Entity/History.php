@@ -73,7 +73,7 @@ class History
 
 
     /**
-     * @Column(nullable="true", type="date")
+     * @Column(nullable="true", type="datetime")
      */
     protected $timestamp;
         

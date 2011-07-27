@@ -47,7 +47,7 @@ class StandardHistory extends History implements HistoryInterface
      *
      * @param NineThousand\Jobqueue\Adapter\History\HistoryAdapterInterface $adapter
      */
-    public function __construct(HistoryAdapterInterface $adapter, $limit = null, $offset = null)
+    public function __construct(HistoryAdapterInterface $adapter, $limit = null, $offset = null, $reverse = false)
     {
         $this->_limit = $limit;
         $this->_offset = $offset;
@@ -61,9 +61,9 @@ class StandardHistory extends History implements HistoryInterface
      * @param $adapter
      * @return NineThousand\Jobqueue\History\StandardHistory
      */
-    public static function factory($adapter, $limit = null, $offset = null)
+    public static function factory($adapter, $limit = null, $offset = null, $reverse = false)
     {
-        return new self($adapter, $limit, $offset);
+        return new self($adapter, $limit, $offset, $reverse);
     }
     
     /**
