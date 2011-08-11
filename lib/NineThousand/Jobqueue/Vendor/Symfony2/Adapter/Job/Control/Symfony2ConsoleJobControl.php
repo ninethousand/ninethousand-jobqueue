@@ -62,7 +62,7 @@ class Symfony2ConsoleJobControl implements JobControlInterface
         }
         
         if (!empty($input['args'])) { 
-            $args = implode(" --", $input['args']);
+            $args = implode(" ", $input['args']);
         }
         
         return trim($console.' '.$command.' '.$params.' '.$args);
