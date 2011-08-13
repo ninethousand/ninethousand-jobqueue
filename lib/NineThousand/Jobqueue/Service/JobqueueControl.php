@@ -77,7 +77,7 @@ class JobqueueControl
         foreach ($this->getRetryQueue() as $job)
         {
             $now = new \DateTime("now");
-            if ($now->getTimestamp() - $job->getLastrunDate()->getTimestamp()) > $job->getCooldown()) 
+            if (($now->getTimestamp() - $job->getLastrunDate()->getTimestamp()) > $job->getCooldown()) 
             {
                 $this->getActiveQueue()->adoptJob($job);
             }
