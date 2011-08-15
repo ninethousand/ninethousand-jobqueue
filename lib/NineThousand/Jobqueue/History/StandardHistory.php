@@ -32,6 +32,16 @@ class StandardHistory extends History implements HistoryInterface
     private $_offset = null;
     
     /**
+     * @var false|bool retains direction of the sort
+     */
+    private $_reverse = false;
+    
+    /**
+     * @var null|int retains the job Id option
+     */
+    private $_jobId = null;
+    
+    /**
      * @var null|string retains the sort order
      */
     protected $sortby = null;
@@ -40,6 +50,8 @@ class StandardHistory extends History implements HistoryInterface
      * @var null|string retains the filter option
      */
     protected $filterby = null;
+    
+
 
 
     /**
@@ -47,10 +59,12 @@ class StandardHistory extends History implements HistoryInterface
      *
      * @param NineThousand\Jobqueue\Adapter\History\HistoryAdapterInterface $adapter
      */
-    public function __construct(HistoryAdapterInterface $adapter, $limit = null, $offset = null, $reverse = false)
+    public function __construct(HistoryAdapterInterface $adapter, $limit = null, $offset = null, $reverse = false, $jobId = null)
     {
         $this->_limit = $limit;
         $this->_offset = $offset;
+        $this->_reverse = $reverse;
+        $this->_jobId = $jobId;
         $this->setAdapter($adapter);
         parent::__construct();
     }
@@ -61,9 +75,9 @@ class StandardHistory extends History implements HistoryInterface
      * @param $adapter
      * @return NineThousand\Jobqueue\History\StandardHistory
      */
-    public static function factory($adapter, $limit = null, $offset = null, $reverse = false)
+    public static function factory($adapter, $limit = null, $offset = null, $reverse = false, $jobId = null)
     {
-        return new self($adapter, $limit, $offset, $reverse);
+        return new self($adapter, $limit, $offset, $reverse, $jobId);
     }
     
     /**
@@ -73,7 +87,7 @@ class StandardHistory extends History implements HistoryInterface
      */
     public function getAll() 
     {
-        return $this->adapter->getHistory($this->_limit, $this->_offset);
+        return $this->adapter->getHistory($this->_limit, $this->_offset, $this->_reverse, $this->_jobId);
     }
     
 }

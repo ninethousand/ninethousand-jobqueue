@@ -22,6 +22,8 @@ interface JobControlInterface extends AdapterInterface
     public function getExecLine(array $input);
     public function run($execLine);
     public function log($severity, $message);
+    public function preRun();
+    public function postRun();
     
     public function setLogger($logger);
     public function getLogger();

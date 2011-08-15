@@ -70,10 +70,15 @@ class RetryQueue extends Queue implements QueueInterface
      * Converts a job from a foreign queue to qualify for this queue.
      * 
      * @param NineThousand\Jobqueue\Job\JobInterface $job
+     * @param int $num The number of times to retry a job defaults to 1
+     * @param int $cooldown The number of seconds between retry attempts defaults to NULL
      */
-    public function adoptJob(JobInterface $job)
+    public function adoptJob(JobInterface $job, $num = 1, $cooldown = NULL)
     {
+        $cooldown = (NULL !== $cooldown) ? $job->getCooldown() : $cooldown;
         $job->setActive(0)
+            ->setMaxRetries(($job->getMaxRetries() + $num))
+            ->setCooldown($cooldown)
             ->setRetry(1)
             ->setStatus('retry');
     }

@@ -137,7 +137,26 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function run($execLine)
     {
-        return $this->_adapterClass->run($execLine);
+        $this->preRun();
+        $output =  $this->_adapterClass->run($execLine);
+        $this->postRun();
+        return $output;
+    }
+    
+    /**
+     * method to run before run is called
+     */
+    public function preRun()
+    {
+
+    }
+    
+    /**
+     * method to run after run is called
+     */
+    public function postRun()
+    {
+
     }
     
     /**
@@ -160,10 +179,30 @@ class DoctrineJobAdapter implements JobAdapterInterface
     }
     
     /**
+     * Calls refresh on the current entity -- refreshes the persistence state
+     *
+     */
+    public function refresh()
+    {
+        $this->_em->refresh($this->_jobEntity);
+    }
+     
+    
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        $this->refresh();
+        return $this->_jobEntity->getId();
+    }
+    
+    /**
      * @return string
      */
     public function getName()
     {
+        $this->refresh();
         return $this->_jobEntity->getName();
     }
     
@@ -182,6 +221,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getRetry()
     {
+        $this->refresh();
         return $this->_jobEntity->getRetry();
     }
     
@@ -200,6 +240,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getCooldown()
     {
+        $this->refresh();
         return $this->_jobEntity->getCooldown();
     }
         
@@ -218,6 +259,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getMaxRetries()
     {
+        $this->refresh();
         return $this->_jobEntity->getMaxRetries();
     }
     
@@ -236,6 +278,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getAttempts()
     {
+        $this->refresh();
         return $this->_jobEntity->getAttempts();
     }
     
@@ -254,6 +297,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getExecutable()
     {
+        $this->refresh();
         return $this->_jobEntity->getExecutable();
     }
     
@@ -273,7 +317,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
     public function getParams()
     {
         $params = array();
-
+        $this->refresh();
         foreach($this->_jobEntity->getParams() as $param) {
             $params[$param->getKey()] = $param->getValue();
         }
@@ -313,7 +357,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
     public function getArgs()
     {
         $args = array();
-        
+        $this->refresh();
         foreach($this->_jobEntity->getArgs() as $arg) {
             array_push($args, $arg->getValue());
         }
@@ -352,6 +396,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
     public function getTags()
     {
         $tags = array();
+        $this->refresh();
         foreach($this->_jobEntity->getTags() as $tag) {
             array_push($tags, $tag->getValue());
         }
@@ -388,6 +433,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getHistory()
     {
+        $this->refresh();
         $history = array();
         $counter = 0;
         foreach($this->_jobEntity->getHistory() as $log) {
@@ -427,6 +473,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getStatus()
     {
+        $this->refresh();
         return $this->_jobEntity->getStatus();
     }
 
@@ -445,6 +492,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getType()
     {
+        $this->refresh();
         return $this->_jobEntity->getType();
     }
     
@@ -463,6 +511,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getCreateDate()
     {
+        $this->refresh();
         return $this->_jobEntity->getCreateDate();
     }
 
@@ -481,6 +530,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getLastrunDate()
     {
+        $this->refresh();
         return $this->_jobEntity->getLastrunDate();
     }
 
@@ -499,6 +549,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getActive()
     {
+        $this->refresh();
         return $this->_jobEntity->getActive();
     }
 
@@ -517,6 +568,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getSchedule()
     {
+        $this->refresh();
         return $this->_jobEntity->getSchedule();
     }
 
@@ -535,6 +587,7 @@ class DoctrineJobAdapter implements JobAdapterInterface
      */
     public function getParent()
     {
+        $this->refresh();
         return $this->_jobEntity->getParent();
     }
 

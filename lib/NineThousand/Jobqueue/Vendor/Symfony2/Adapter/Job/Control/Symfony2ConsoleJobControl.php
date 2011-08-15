@@ -58,7 +58,11 @@ class Symfony2ConsoleJobControl implements JobControlInterface
         }
         
         if (!empty($input['params'])) { 
-            $params = implode(" ", $input['params']);
+            $params = '';
+            foreach ($input['params'] as $key => $value) {
+                $params .= $key . '=' . $value . ' ';
+            }
+            $params = trim($params);
         }
         
         if (!empty($input['args'])) { 
@@ -126,4 +130,21 @@ class Symfony2ConsoleJobControl implements JobControlInterface
         return $this->_logger;
     }
     
+    /**
+     * method to run before run is called
+     */
+    public function preRun()
+    {
+
+    }
+    
+    /**
+     * method to run after run is called
+     */
+    public function postRun()
+    {
+
+    }
+    
 }
+

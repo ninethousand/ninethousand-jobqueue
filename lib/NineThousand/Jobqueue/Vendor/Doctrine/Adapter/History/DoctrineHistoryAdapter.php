@@ -77,25 +77,29 @@ class DoctrineHistoryAdapter implements HistoryAdapterInterface
      * @param int $offset
      * @return array
      */
-    public function getHistory($limit = null, $offset = null, $reverse = false)
+    public function getHistory($limit = null, $offset = null, $reverse = false, $jobId = null)
     {
         $entries = array();
-        
+        $params = array('active' => 1);
         if (!$reverse) {
             $order = 'DESC';
         } else {
             $order = 'ASC';
         }
         
-        $query = $this->_em
-                        ->getRepository($this->_historyClass)
-                        ->createQueryBuilder('h')
-                        ->andWhere('h.active = :active')
-                        ->orderBy('h.timestamp ', $order)
-                        ->setParameters(array('active' => 1))
-                        ->getQuery();
+        $qb = $this->_em
+                    ->getRepository($this->_historyClass)
+                    ->createQueryBuilder('h');
+        if (null != $jobId) {
+            $params['jobId'] = $jobId;
+            $qb->andWhere('h.job = :jobId');
+        }
+        $qb->andWhere('h.active = :active')
+           ->orderBy('h.timestamp ', $order)
+           ->setParameters($params);
         
-        
+        $query = $qb->getQuery();
+                        
         if (null !== $limit) {
             $countQuery = clone $query;
             $countQuery->setParameters($query->getParameters());

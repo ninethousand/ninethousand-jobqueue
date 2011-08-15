@@ -19,7 +19,7 @@ use NineThousand\Jobqueue\Adapter\AdapterInterface;
 
 interface HistoryAdapterInterface extends AdapterInterface
 {   
-    public function getHistory($limit, $offset);
+    public function getHistory($limit, $offset, $reverse, $jobId);
     public static function factory($controller, $em, $entity);
     public function getId();
     public function getJobId();

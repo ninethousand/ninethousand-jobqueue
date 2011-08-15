@@ -148,9 +148,9 @@ class DoctrineQueueAdapter implements QueueAdapterInterface
                         ->_em
                         ->getRepository($this->_entityClass)
                         ->createQueryBuilder('s')
-                        ->andWhere('s.schedule <> :schedule')
+                        ->andWhere('s.schedule is not NULL')
                         ->andWhere('s.active = :active')
-                        ->setParameters(array('active' => 0, 'schedule' => 'NULL'))
+                        ->setParameters(array('active' => 0))
                         ->getQuery()
                         ->getResult(); 
         

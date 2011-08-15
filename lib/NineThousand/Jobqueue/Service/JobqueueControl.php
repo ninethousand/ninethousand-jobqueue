@@ -32,8 +32,7 @@ class JobqueueControl
 
     public function run()
     {
-       
-       
+
        $this->logger->debug('Entered new cycle at: ' . get_class($this). '::run()');
        
        $this->runRetryQueue();
